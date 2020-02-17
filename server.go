@@ -15,7 +15,7 @@ func main() {
 func HelloServer(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "Hello, Onica!!\n")
 
-    file,_ := os.Open("hostname.txt")
+    file,_ := os.Open("hostname/hostname.txt")
     scanner := bufio.NewScanner(file)
     for scanner.Scan() {
             fmt.Fprintf(w,"Hostname: " + scanner.Text())

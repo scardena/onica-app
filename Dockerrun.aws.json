@@ -7,7 +7,7 @@
   "Volumes": [
     {
       "HostDirectory": "/home/ec2-user/hostname",
-      "ContainerDirectory": "/var/app"
+      "ContainerDirectory": "/var/app/hostname"
     }
   ],
   "Ports": [
