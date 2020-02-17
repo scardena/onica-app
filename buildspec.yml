@@ -7,7 +7,8 @@ phases:
     commands:
       - echo "installing packages..(nothing for now)"
       - pip install awsebcli --upgrade
-      - eb init --platform "docker" --region $AWS_DEFAULT_REGION backend
+      #application onicaapp needs to exists, otherwise this command will create the app
+      - eb init --platform "docker" --region $AWS_DEFAULT_REGION onicaapp
       - apt-get install stress -y
   #The building proccess is moved to pre_build stage, as if the build fails, it will still proceed to the post_build stage, hence it may upload broken images to ECR.
   pre_build: 
@@ -18,7 +19,7 @@ phases:
       - echo Building docker image
       - region="$AWS_DEFAULT_REGION"
 
-      - docker build -t onica-backend:latest .
+      - docker build -t onica_app:latest .
       - tagImageDate=$(echo p$(date +%Y)$(date +%m)$(date +%d)-$(date +%H)$(date +%M)$(date +%S))
       - echo "image date creation :" "$tagImageDate"
       - echo "region is :" "$region"
@@ -26,19 +27,20 @@ phases:
       - echo Pushing docker image to ECR
 
 
-      - docker tag onica-backend:latest 191691036077.dkr.ecr.$region.amazonaws.com/onica-backend:$tagImageDate
-      - docker tag onica-backend:latest 191691036077.dkr.ecr.$region.amazonaws.com/onica-backend:latest
-      - docker push 191691036077.dkr.ecr.$region.amazonaws.com/onica-backend:$tagImageDate
-      - docker push 191691036077.dkr.ecr.$region.amazonaws.com/onica-backend:latest
+      - docker tag onica_app:latest 191691036077.dkr.ecr.$region.amazonaws.com/onica_app:$tagImageDate
+      - docker tag onica_app:latest 191691036077.dkr.ecr.$region.amazonaws.com/onica_app:latest
+      - docker push 191691036077.dkr.ecr.$region.amazonaws.com/onica_app:$tagImageDate
+      - docker push 191691036077.dkr.ecr.$region.amazonaws.com/onica_app:latest
 
   build:
     commands:
       - echo 'Build succeded!'
   post_build:
     commands:
-      - eb clone onica-blue -n onica-green
-      - eb swap onica-blue -n onica-green
+      - echo "Commenting this for troubleshooting purposes"
+      #- eb clone onica-app-blue -n onica-app-green
+      #- eb swap onica-app-blue -n onica-app-green
 artifacts:
   files:
     - Dockerrun.aws.json
-    #- .ebextensions/*
+    - .ebextensions/*
