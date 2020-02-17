@@ -4,6 +4,12 @@
     "Name": "191691036077.dkr.ecr.us-east-1.amazonaws.com/onica_app:latest",
     "Update": "true"
   },
+  "Volumes": [
+    {
+      "HostDirectory": "/home/ec2-user/hostname",
+      "ContainerDirectory": "/var/app"
+    }
+  ],
   "Ports": [
     {
       "ContainerPort": "80"
