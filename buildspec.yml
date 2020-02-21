@@ -38,8 +38,8 @@ phases:
   post_build:
     commands:
       - echo "Commenting this for troubleshooting purposes"
-      #- eb clone onica-app-blue -n onica-app-green
-      #- eb swap onica-app-blue -n onica-app-green
+      - eb clone onica-app-blue -n onica-app-green
+      - eb swap onica-app-blue -n onica-app-green
 artifacts:
   files:
     - Dockerrun.aws.json
