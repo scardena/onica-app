@@ -31,6 +31,7 @@ phases:
       - docker tag onica_app:latest 191691036077.dkr.ecr.$region.amazonaws.com/onica_app:latest
       - docker push 191691036077.dkr.ecr.$region.amazonaws.com/onica_app:$tagImageDate
       - docker push 191691036077.dkr.ecr.$region.amazonaws.com/onica_app:latest
+      - sed -i "s/REPLACEME/$tagImageDate/" Dockerrun.aws.json
 
   build:
     commands:
